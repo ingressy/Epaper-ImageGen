@@ -54,7 +54,7 @@ class Rest:
 
         return web.json_response(data={
             "status": "green",
-            "image": self.image_generator.image_to_array(image_path)
+            "image": self.image_generator.image_to_hex_string(image_path)
         })
 
     async def generate(self, request):

@@ -311,7 +311,7 @@ class ImageGenerator:
                   fill=color, anchor='rm')
 
     @staticmethod
-    def image_to_array(image_path):
+    def image_to_hex_string(image_path):
         """Öffnet ein Graustufenbild und gibt die Pixelwerte als eindimensionales Array zurueck."""
         # Bild öffnen
         with Image.open(image_path) as img:
@@ -326,7 +326,7 @@ class ImageGenerator:
 
             packed = np.packbits(pixel_array_flattened)
 
-        return list(bytes(packed))
+        return ''.join(', ').join('0x{:02x}'.format(byte) for byte in bytes(packed))
 
     @staticmethod
     def reduce_pixel_count(pixel_array):
