@@ -37,6 +37,7 @@ class ImageGenerator:
 
         # Lesson rect config
         self.lesson_rect_color = cfg['lesson_rect_color']
+        self.lesson_rect_background_color = cfg['lesson_rect_background_color']
         self.lesson_rect_height = cfg['lesson_rect_height']
         self.upper_margin = cfg['upper_margin']
         self.bottom_margin = cfg['bottom_margin']
@@ -177,8 +178,6 @@ class ImageGenerator:
                 if not 'is_dummy' in lesson:
                     # change color according to state (cancelled or not)
                     color = self.lesson_default_color
-                    if lesson['code'] == self.cancelled_code:
-                        color = self.lesson_cancelled_color
 
                     # change appearance if irregular lesson
                     if lesson['code'] == self.irregular_code:
@@ -229,14 +228,20 @@ class ImageGenerator:
         image = Image.new('L', (width, height), self.background_color)
         draw = ImageDraw.Draw(image)
 
+        # dont draw dummy
         if 'is_dummy' in lesson:
             return image
 
-        draw.rounded_rectangle([0, 0, width, height], fill=self.lesson_rect_color, outline=color, radius=self.lesson_rect_corner_radius,
+        draw.rounded_rectangle([0, 0, width, height], fill=self.lesson_rect_background_color, outline=color, radius=self.lesson_rect_corner_radius,
                        width=self.lesson_rect_outline_width)
 
         # draw lesson texts
         self.draw_lesson_texts(lesson, draw, width, height, color)
+
+        if lesson['code'] == self.cancelled_code:
+            radius = self.lesson_rect_corner_radius//2
+            draw.line([radius,radius, width-radius, height-radius], width=self.lesson_rect_outline_width, fill=self.lesson_rect_color)
+            draw.line([width-radius, radius, radius, height-radius], width=self.lesson_rect_outline_width, fill=self.lesson_rect_color)
 
         return image
 

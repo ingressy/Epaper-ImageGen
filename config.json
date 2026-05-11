@@ -19,7 +19,8 @@
         87
       ],
       "standard_font": "assets/Arial.TTF",
-      "lesson_rect_color": 255,
+      "lesson_rect_background_color": 255,
+      "lesson_rect_color": 0,
       "lesson_rect_height": 100,
       "upper_margin": 120,
       "bottom_margin": 35,
